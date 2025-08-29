@@ -1,0 +1,56 @@
+{
+  "name": "gastrotools-professional",
+  "version": "1.0.0",
+  "description": "Professional Restaurant Management Suite - Production Ready",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "npx playwright test",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "npx tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "@sentry/nextjs": "^8.30.0",
+    "bcryptjs": "^2.4.3",
+    "jspdf": "^2.5.1",
+    "html2canvas": "^1.4.1",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.445.0",
+    "next": "15.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "nodemailer": "^6.9.8",
+    "resend": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.5",
+    "@types/react": "^18.3.8",
+    "@types/react-dom": "^18.3.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/nodemailer": "^6.4.14",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.3.4",
+    "playwright": "^1.55.0",
+    "postcss": "^8.4.47",
+    "prisma": "^6.15.0",
+    "tailwindcss": "^3.4.12",
+    "typescript": "^5.6.2",
+    "tsx": "^4.7.0"
+  },
+  "keywords": [
+    "restaurant",
+    "nutrition",
+    "management",
+    "gastro",
+    "tools"
+  ],
+  "author": "GastroTools GmbH",
+  "license": "proprietary"
+}

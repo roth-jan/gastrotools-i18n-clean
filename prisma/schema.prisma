@@ -1,0 +1,124 @@
+// GastroTools Professional - Production Database Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  plan      String   @default("free")
+  company   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  recipes       Recipe[]
+  speisekarten  Speisekarte[]
+  usageTracking UsageTracking[]
+  leads         Lead[]
+  inventoryItems InventoryItem[]
+  costEntries    CostEntry[]
+}
+
+model Recipe {
+  id          String   @id @default(cuid())
+  name        String
+  ingredients Json
+  nutrition   Json?
+  allergens   Json?
+  portions    Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model Speisekarte {
+  id          String   @id @default(cuid())
+  name        String
+  template    String   @default("modern-minimal")
+  categories  Json
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)  
+  userId String
+}
+
+model UsageTracking {
+  id        String   @id @default(cuid())
+  tool      String   // "naehrwert", "speisekarten", "kostenkontrolle", etc.
+  count     Int      @default(0)
+  month     String   // "2024-07"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@unique([userId, tool, month])
+}
+
+model Lead {
+  id               String   @id @default(cuid())
+  name             String
+  email            String
+  company          String?
+  phone            String?
+  toolInterest     String   
+  source           String   
+  status           String   @default("new")
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+}
+
+model InventoryItem {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  quantity    Float
+  unit        String
+  minStock    Float?
+  maxStock    Float?
+  location    String?
+  supplier    String?
+  cost        Float?
+  expiryDate  DateTime?
+  status      String   @default("in_stock")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
+
+model CostEntry {
+  id          String   @id @default(cuid())
+  product     String
+  category    String
+  amount      Float
+  unit        String   @default("kg")
+  unitPrice   Float
+  totalPrice  Float
+  supplier    String?
+  date        DateTime @default(now())
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+}
