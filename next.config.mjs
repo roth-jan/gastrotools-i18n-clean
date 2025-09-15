@@ -1,18 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
+  output: 'export',
+  trailingSlash: true,
   images: {
-    domains: ['localhost', 'gastrotools.de'],
-    unoptimized: false,
+    unoptimized: true,
   },
   // Production optimizations
   poweredByHeader: false,
